@@ -123,42 +123,6 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes glow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.6);
-          }
-          50% {
-            box-shadow: 0 0 50px rgba(255, 255, 255, 1), 0 0 100px rgba(255, 255, 255, 0.8), 0 0 150px rgba(255, 255, 255, 0.6);
-          }
-        }
-
-        @keyframes blink {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-
-        .animate-glow {
-          animation: glow 2s ease-in-out infinite;
-        }
-
-        .animate-blink {
-          animation: blink 1s infinite;
-        }
-
-        .neon-border {
-          border: 8px solid transparent;
-          background-clip: padding-box;
-          position: relative;
-          box-shadow: 0 0 20px rgba(255, 255, 255, 1), 0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(255, 255, 255, 0.6);
-          animation: glow 2s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   )
 }
