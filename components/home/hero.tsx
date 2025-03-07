@@ -111,13 +111,15 @@ export default function Hero() {
 
           <motion.div className="relative gsap-hero-element hidden md:block">
             <div className="relative w-full aspect-square max-w-md mx-auto">
+              {/* Neon Glowing Border (Without Blinking) */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-2xl backdrop-blur-sm animate-glow"
+                className="absolute inset-0 bg-gradient-to-br from-purple-500/40 to-cyan-500/40 rounded-2xl backdrop-blur-lg animate-glow"
               />
               <motion.div
-                className="absolute inset-4 bg-background/40 backdrop-blur-md rounded-xl overflow-hidden animate-blink"
+                className="absolute inset-4 bg-background/40 backdrop-blur-lg rounded-xl overflow-hidden"
               >
-                <div className="w-full h-full bg-[url('/favicon.ico?height=600&width=600')] bg-cover bg-center border-8 border-transparent rounded-xl neon-border" />
+                {/* Image with a glowing neon border, no blinking effect */}
+                <div className="w-full h-full bg-[url('/favicon.ico?height=600&width=600')] bg-cover bg-center border-8 border-transparent rounded-xl neon-border animate-pulse" />
               </motion.div>
             </div>
           </motion.div>

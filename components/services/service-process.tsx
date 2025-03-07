@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -71,10 +71,10 @@ export default function ServiceProcess() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 hover:border-primary/50 transition-all duration-300"
+              className="bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl p-6 hover:border-primary/50 transition-all duration-300 ease-in-out transform hover:scale-105"
             >
               <div className="text-4xl font-bold text-primary/30 mb-4">{step.number}</div>
-              <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+              <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
               <p className="text-foreground/70">{step.description}</p>
             </motion.div>
           ))}
@@ -90,12 +90,14 @@ export default function ServiceProcess() {
           <p className="text-lg text-foreground/80 max-w-2xl mx-auto mb-6">
             Ready to start your project? Contact us today to discuss how we can help you achieve your digital goals.
           </p>
-          <Button size="lg" asChild>
-            <Link href="/contact">Get Started</Link>
+          <Button size="lg" className="group" asChild>
+            <Link href="/contact">
+              Get Started
+              <span className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1">→</span>
+            </Link>
           </Button>
         </motion.div>
       </div>
     </section>
   )
 }
-

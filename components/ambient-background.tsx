@@ -9,7 +9,7 @@ function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
-  let inThrottle: boolean;
+  let inThrottle = false;
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
       func(...args);
@@ -52,6 +52,25 @@ export default function AmbientBackground() {
     { hue: 300, saturation: 80, lightness: 45 }, // Magenta (bottom)
   ];
 
+  // Function to interpolate between two colors based on scroll position
+  const interpolateColor = (scrollPercent: number): string => {
+    const colorIndex = scrollPercent * (colorPalette.length - 1);
+    const lowerIndex = Math.floor(colorIndex);
+    const upperIndex = Math.min(lowerIndex + 1, colorPalette.length - 1);
+    const blend = colorIndex - lowerIndex;
+
+    const lowerColor = colorPalette[lowerIndex];
+    const upperColor = colorPalette[upperIndex];
+
+    const hue = lowerColor.hue + (upperColor.hue - lowerColor.hue) * blend;
+    const saturation =
+      lowerColor.saturation + (upperColor.saturation - lowerColor.saturation) * blend;
+    const lightness =
+      lowerColor.lightness + (upperColor.lightness - lowerColor.lightness) * blend;
+
+    return `hsla(${hue}, ${saturation}%, ${lightness}%, 0.1)`;
+  };
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
@@ -90,28 +109,7 @@ export default function AmbientBackground() {
         this.speedX = Math.random() * 3 - 1.5;
         this.speedY = Math.random() * 3 - 1.5;
         this.baseHue = colorPalette[0].hue; // Start with first color
-        this.color = `hsla(${this.baseHue}, ${colorPalette[0].saturation}%, ${colorPalette[0].lightness}%, 0.1)`;
-      }
-
-      updateColor() {
-        // Calculate scroll percentage
-        const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = scrollRef.current / (scrollMax || 1); // Avoid division by 0
-        
-        // Map scroll position to color palette
-        const colorIndex = scrollPercent * (colorPalette.length - 1);
-        const lowerIndex = Math.floor(colorIndex);
-        const upperIndex = Math.min(lowerIndex + 1, colorPalette.length - 1);
-        const blend = colorIndex - lowerIndex;
-
-        // Interpolate between colors
-        const lowerColor = colorPalette[lowerIndex];
-        const upperColor = colorPalette[upperIndex];
-        const hue = lowerColor.hue + (upperColor.hue - lowerColor.hue) * blend;
-        const saturation = lowerColor.saturation + (upperColor.saturation - lowerColor.saturation) * blend;
-        const lightness = lowerColor.lightness + (upperColor.lightness - lowerColor.lightness) * blend;
-
-        this.color = `hsla(${hue}, ${saturation}%, ${lightness}%, 0.1)`;
+        this.color = interpolateColor(0); // Use initial scroll position
       }
 
       update() {
@@ -124,7 +122,7 @@ export default function AmbientBackground() {
         if (this.x > canvas.width) this.x = 0;
         else if (this.x < 0) this.x = canvas.width;
 
-        // Mouse interaction
+        // Mouse interaction: make particles grow when near mouse
         const dx = this.x - mouse.current.x;
         const dy = this.y - mouse.current.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
@@ -135,7 +133,9 @@ export default function AmbientBackground() {
         }
 
         // Update color based on scroll
-        this.updateColor();
+        const scrollMax = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = scrollRef.current / (scrollMax || 1); // Avoid division by 0
+        this.color = interpolateColor(scrollPercent);
       }
 
       draw() {
@@ -150,6 +150,7 @@ export default function AmbientBackground() {
       }
     }
 
+    // Initialize particles
     function init() {
       particles.length = 0;
       for (let i = 0; i < particleCount; i++) {
@@ -157,19 +158,21 @@ export default function AmbientBackground() {
       }
     }
 
+    // Animation loop
     function animate() {
       if (!ctx || !canvas) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-      }
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
       animationFrameRef.current = requestAnimationFrame(animate);
     }
 
     init();
     animate();
 
+    // Event listeners
     const handleResize = throttle(() => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -178,9 +181,7 @@ export default function AmbientBackground() {
 
     const handleScroll = throttle(() => {
       scrollRef.current = window.scrollY;
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-      }
+      particles.forEach(p => p.update());
     }, 16);
 
     const handleMouseMove = throttle((event: MouseEvent) => {
@@ -192,6 +193,7 @@ export default function AmbientBackground() {
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("mousemove", handleMouseMove);
 
+    // Cleanup on unmount
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);

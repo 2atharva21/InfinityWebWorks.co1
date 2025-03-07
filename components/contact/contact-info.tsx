@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { motion } from "framer-motion"
 import { Mail, MapPin, Phone, Twitter, Facebook, Instagram, Linkedin, Github } from "lucide-react"
@@ -20,7 +20,7 @@ export default function ContactInfo() {
     {
       icon: <MapPin className="h-5 w-5" />,
       title: "Address",
-      value: "Pune,maharashtra,india",
+      value: "Pune, Maharashtra, India",
       link: "https://maps.google.com",
     },
   ]
@@ -66,6 +66,7 @@ export default function ContactInfo() {
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             className="flex items-start gap-4 p-4 bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl hover:border-primary/50 transition-all duration-300"
+            aria-label={`Contact via ${item.title}`}
           >
             <div className="p-3 bg-primary/10 rounded-lg text-primary">{item.icon}</div>
             <div>
@@ -90,6 +91,7 @@ export default function ContactInfo() {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
               className="p-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg hover:border-primary/50 hover:text-primary transition-all duration-300 flex items-center gap-2"
+              aria-label={`Follow us on ${social.name}`}
             >
               {social.icon}
             </motion.a>
@@ -101,16 +103,16 @@ export default function ContactInfo() {
         <div className="bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl overflow-hidden h-80">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121059.0344739699!2d73.86296739999999!3d18.52461645!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1740917726315!5m2!1sen!2sin"
-            width="600"
-            height="450"
+            width="100%"
+            height="100%"
             style={{ border: 0 }}
             allowFullScreen={true}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            aria-label="Google Map showing Pune, Maharashtra"
           ></iframe>
         </div>
       </div>
     </motion.div>
   )
 }
-

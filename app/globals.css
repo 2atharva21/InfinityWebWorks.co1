@@ -57,3 +57,18 @@
     @apply bg-background text-foreground;
   }
 }
+    /* Neon border effect for image */
+.neon-border {
+  border: 8px solid transparent;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+}
+
+/* The image itself is also part of the glow effect */
+.neon-border div {
+  transition: all 0.3s ease;
+}
+
+.neon-border div {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.7);
+}

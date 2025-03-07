@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState, ChangeEvent, FormEvent } from "react"
 import { motion } from "framer-motion"
@@ -140,9 +140,16 @@ export default function ContactForm() {
                 value={formState.name}
                 onChange={handleChange}
                 placeholder="Your name"
-                className={errors.name ? "border-red-500" : ""}
+                className={`${
+                  errors.name ? "border-red-500" : ""
+                }`}
+                aria-describedby={errors.name ? "name-error" : undefined}
               />
-              {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+              {errors.name && (
+                <p id="name-error" className="text-sm text-red-500">
+                  {errors.name}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -154,9 +161,16 @@ export default function ContactForm() {
                 value={formState.email}
                 onChange={handleChange}
                 placeholder="Your email"
-                className={errors.email ? "border-red-500" : ""}
+                className={`${
+                  errors.email ? "border-red-500" : ""
+                }`}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
-              {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+              {errors.email && (
+                <p id="email-error" className="text-sm text-red-500">
+                  {errors.email}
+                </p>
+              )}
             </div>
           </div>
 
@@ -169,9 +183,16 @@ export default function ContactForm() {
               onChange={handleChange}
               placeholder="Your message"
               rows={5}
-              className={errors.message ? "border-red-500" : ""}
+              className={`${
+                errors.message ? "border-red-500" : ""
+              }`}
+              aria-describedby={errors.message ? "message-error" : undefined}
             />
-            {errors.message && <p className="text-sm text-red-500">{errors.message}</p>}
+            {errors.message && (
+              <p id="message-error" className="text-sm text-red-500">
+                {errors.message}
+              </p>
+            )}
           </div>
 
           {submissionError && (
@@ -187,7 +208,14 @@ export default function ContactForm() {
                   fill="none"
                   viewBox="0 0 24 24"
                 >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
                   <path
                     className="opacity-75"
                     fill="currentColor"

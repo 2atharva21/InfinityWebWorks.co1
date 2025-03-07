@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
 import { useState, useEffect, useRef } from "react"
-import { motion, useAnimation } from "framer-motion"
+import { motion } from "framer-motion"
 import { Code, Palette, Rocket, Search, Zap, ArrowRight } from "lucide-react"
 import AnimatedIcon from "@/components/animated-icon"
 import { gsap } from "gsap"
@@ -14,7 +14,6 @@ if (typeof window !== "undefined") {
 export default function ServicesList() {
   const [activeService, setActiveService] = useState(0)
   const containerRef = useRef<HTMLDivElement>(null)
-  const controls = useAnimation()
 
   const services = [
     {
@@ -101,7 +100,7 @@ export default function ServicesList() {
             end: "bottom 20%",
             toggleActions: "play none none reverse",
           },
-        },
+        }
       )
     }
   }, [])
@@ -122,14 +121,14 @@ export default function ServicesList() {
   }
 
   return (
-    <section className="py-20 relative">
+    <section className="py-10 sm:py-20 relative">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
           <div className="lg:col-span-1">
             <motion.div
               variants={container}
@@ -189,7 +188,7 @@ export default function ServicesList() {
 
               <h3 className="text-xl font-semibold mb-4">Key Features</h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {services[activeService].features.map((feature, index) => (
                   <motion.div
                     key={index}
@@ -220,4 +219,3 @@ export default function ServicesList() {
     </section>
   )
 }
-
